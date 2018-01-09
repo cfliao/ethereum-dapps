@@ -2,6 +2,7 @@
 The objective of this work is to serve as a framework for writing dapps on ethereum.
 For now, only a set of classes for compiling, deploying and invoking smart contract is provided.
 
+
 To learn how to use these the classes, please refer to the test cases.
 
 Currently, the code works on Solc 0.4.19 and Web3.js 0.20.1.
