@@ -58,7 +58,7 @@ contractManager.deploy(function (contract) {
     });
 ```
 
-After the contract is deployed:
+After the contract is deployed, you can obtain an instance of the contract by its reference:
 ```js
 // The contract address can be obtained by calling contract.address in the previous step
 let contract = contractManager.findAt('0x0bfbc4b5c2d20d6dcae96ad5d3cd661397c0b85b');
