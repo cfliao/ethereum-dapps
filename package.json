@@ -1,0 +1,11 @@
+{
+  "name": "2018-smartcontract",
+  "version": "0.0.1",
+  "description": "smart contract test",
+  "license": "Apache-2.0",
+  "author": "Chun-Feng Liao",
+  "dependencies": {
+    "solc": "0.4.19",
+    "web3": "0.20.1"
+  }
+}
