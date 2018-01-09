@@ -15,3 +15,5 @@ Also, make sure the following geth parameters are added:
  --rpccorsdomain "*" --rpc --rpcapi "eth,net,web3,debug,personal,admin" --shh
 
 If 'personal' is not added in the rpcapi list, then the account can not be unlocked automatically.
+
+dd
