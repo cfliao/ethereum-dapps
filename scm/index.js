@@ -59,6 +59,25 @@ class ContractManager {
         return new Contract(this.account, address, c.at(address));
     }
 
+    static compile(code, callback) {
+        let result = compiler.compile(code, 1);
+
+        if (callback)
+            callback(result.errors, result);
+    }
+
+    static compileFile(sourcePath, callback) {
+
+        this.compile(fs.readFileSync(sourcePath).toString(), function (err, result) {
+
+            for (let contractName in result.contracts) {
+                fs.writeFileSync(sourcePath + '.abi', result.contracts[contractName].interface);
+                fs.writeFileSync(sourcePath + '.bin', result.contracts[contractName].bytecode);
+            }
+            if (callback)
+                callback(result.errors, result);
+        });
+    }
 }
 
 class Contract {
@@ -87,7 +106,6 @@ class Contract {
     }
 }
 
-module.exports.ContractManager = ContractManager;
-module.exports.SolCompiler = SolCompiler;
+module.exports = ContractManager;
 
 
