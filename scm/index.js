@@ -2,37 +2,16 @@ const fs = require('fs');
 const Web3 = require('web3');
 const compiler = require('solc');
 const passwordDefault = 'nccutest';
-const httpProviderDefault = 'http://localhost:8545';
-
-let SolCompiler = {
-    compile: function (code, callback) {
-        let result = compiler.compile(code, 1);
-
-        if (callback)
-            callback(result.errors, result);
-    },
-    compileFile: function (sourcePath, callback) {
-
-        this.compile(fs.readFileSync(sourcePath).toString(), function (err, result) {
-
-            for (let contractName in result.contracts) {
-                fs.writeFileSync(sourcePath + '.abi', result.contracts[contractName].interface);
-                fs.writeFileSync(sourcePath + '.bin', result.contracts[contractName].bytecode);
-            }
-            if (callback)
-                callback(result.errors, result);
-        });
-    }
-};
+const providerDefault = new Web3.providers.WebsocketProvider('ws://localhost:8546');
 
 class ContractManager {
 
     constructor(abi, bytecode, accountPassword) {
-        this.web3 = new Web3(new Web3.providers.HttpProvider(httpProviderDefault));
+        this.web3 = new Web3(providerDefault);
         let password = accountPassword;
         if (!password) password = passwordDefault;
         this.account = this.web3.eth.accounts[0];
-        this.web3.personal.unlockAccount(this.account, password);
+        this.web3.eth.personal.unlockAccount(this.account, password);
         this.abi = JSON.parse(abi);
         this.bytecode = bytecode;
     }

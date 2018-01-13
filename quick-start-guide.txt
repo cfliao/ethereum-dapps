@@ -1,0 +1,58 @@
+
+1. 透過ssh連接到server (static node server)
+  - Windows使用者可使用putty來進行連接
+    - ip: xxx
+    - username: percomlab
+    - password: xxx
+  - Mac使用者:
+    - 在命令列打: ssh percomlab@xxx
+    - 密碼同上
+
+2. 啟動 Server上的節點
+  - 打ps -ax |grep geth，看一下有沒有geth --networkid 12121......這種字樣的被抓出來，如果有，則直接進行第3步。若沒有，則進行下列步驟。
+  - cd ~/Document/go-ethereum/
+  - build/bin/geth --networkid 12121 --datadir "~/ethereumTest/" --rpc --rpcapi "eth,net,web3,debug" --minerthreads 2 --etherbase "0" --debug --fast
+  - 參數說明
+    --rpc : enable HTTP RPC server
+    --rpcapi "eth,net,web3,debug" : 指定開啟eth、net、web3、debug等JSON-RPC功能
+    --fast:  Enable fast syncing through state downloads
+    --mine:  Enable mining
+    --minerthreads value: Number of CPU threads to use for mining (default: 8)
+    --etherbase value: Public address for block mining rewards (default = first account created) (default: "0")
+    --debug: prepends log messages with call-site location (file and line number)
+    /Users/percomlab/Documents/go-ethereum下有一個startGethCfliao.sh 是一個寫好的批次檔，可以用來直接修改執行(./startGethCfliao.sh)。
+
+
+3. Client端設定
+
+   (1) (重要!) 清除原有的ethereum資訊:
+        windows: 請刪除 C:\Users\使用者\AppData\Roaming\Ethereum 與C:\Users\使用者\AppData\Ethash
+        mac: 請刪除 ~/Library/Ethereum 與~/.ethash
+        linux: 請刪除 ~/.ethereum 與~/.ethash
+
+   (2) 安裝geth
+   (3) 將genesis-block.json與static-nodes.json拷貝到C:\AppData\Roaming\Ethereum\genesis-block.json
+   (4) 初始化blockchain
+       geth init C:/AppData/Roaming/Ethereum/genesis-block.json
+       static-nodes.json的用途是設置靜態節點連接資料
+       這樣以後不用每次都到JS Console打admin.addPeer(...)
+
+   (5) 建立帳號 geth account new (設定的密碼要記下來)
+   (6) 啟動geth: geth --networkid 12121 --nodiscover --nat "any" --rpccorsdomain "*" --rpc --rpcapi "eth,net,web3,debug,personal,admin"
+       如果要mine，則再加上--mine --minerthread 2
+       補充:Web3.js 1.0之後rpc api將deprecated，因此應改為開websocket較佳, 如下
+        geth --networkid 12121 --nodiscover --nat "any" --wsorigins "*" --ws --wsapi "eth,net,web3,debug,personal,admin"
+       如果要自動在node開啟時unlock節點，再加上
+　　　　--password "pwd.txt" --unlock 0＜－－－這裡會unlock你的account #0，密碼打在同一目錄下的pwd.txt檔案中
+
+   (7) 使用JS Console
+       geth attach
+   (8) 如何確定有連到私有鏈(static node server): admin.peers，如果得到[]就是未連上，否則應該會出現peers的相關資訊
+       如果沒連到，一般是static-node.json中的資料錯誤，試著到static node server上開JS console，打admin.nodeInfo.enode
+然後將[::]的部份取代為xxx.xxx.xxx.xxx:30303
+       另外，也要確認二方的networkid是設成一樣的
+
+4. 寫得很好的入門教學
+https://kairen.github.io/2017/05/25/blockchain/multi-node-geth/
+
+

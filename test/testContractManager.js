@@ -2,7 +2,7 @@ const fs = require('fs');
 const chai = require('chai'), should = chai.should();
 const mocha = require('mocha'), suite = mocha.suite, test = mocha.test;
 
-suite('ContractManager (deploy and findAt)', function () {
+suite.skip('ContractManager (deploy and findAt)', function () {
 
     let abi = fs.readFileSync('contracts/MyData.sol.abi');
     let bin = fs.readFileSync('contracts/MyData.sol.bin');
