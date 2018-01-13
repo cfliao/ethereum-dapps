@@ -22,9 +22,9 @@ If `personal` is not added in the rpcapi list, then the account can not be unloc
 
 Compiling a solidity-based contract:
 ```js
-const SolCompiler = require('./scm').SolCompiler;
+const ContractManager = require('./scm');
 
-SolCompiler.compileFile('./contracts/MyData.sol', function (err, result) {
+ContractManager.compileFile('./contracts/MyData.sol', function (err, result) {
         if (err) throw err;
         console.log(result);
 });
@@ -51,7 +51,7 @@ const fs = require('fs');
 let abi = fs.readFileSync('contracts/MyData.sol.abi');
 let bin = fs.readFileSync('contracts/MyData.sol.bin');
 
-let ContractManager = require('./scm').ContractManager;
+let ContractManager = require('./scm');
 let contractManager = new ContractManager(abi, bin);
 ```
 
