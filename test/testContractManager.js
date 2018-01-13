@@ -1,7 +1,7 @@
 const fs = require('fs');
 const chai = require('chai'), should = chai.should();
 const mocha = require('mocha'), suite = mocha.suite, test = mocha.test;
-
+// TODO: not correct for web3 1.0
 suite.skip('ContractManager (deploy and findAt)', function () {
 
     let abi = fs.readFileSync('contracts/MyData.sol.abi');
@@ -12,7 +12,7 @@ suite.skip('ContractManager (deploy and findAt)', function () {
     test('findAt (get)', () => {
         // TODO: not self contained
         let contract = contractManager.findAt('0x0bfbc4b5c2d20d6dcae96ad5d3cd661397c0b85b');
-        should.exist(contract.get());
+        should.exist(contract.methods.get().call().then(console.log));
     });
 
     test('deploy', () => {
