@@ -5,10 +5,10 @@
   "license": "Apache-2.0",
   "author": "Chun-Feng Liao",
   "dependencies": {
-    "solc": "0.4.19",
-    "web3": "0.20.1",
+    "chai": "~4.1.2",
     "mocha": "~4.1.0",
-    "chai": "~4.1.2"
+    "solc": "^0.4.23",
+    "web3": "^0.20.6"
   },
   "scripts": {
     "test": "mocha"
